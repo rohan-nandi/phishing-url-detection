@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing URL Detector</title>
+</head>
+<body>
+    <h1>Phishing URL Detector</h1>
+    <form id="urlForm">
+        <label for="urlInput">Enter URL:</label>
+        <input type="text" id="urlInput" required>
+        <button type="submit">Check</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("urlForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const url = document.getElementById("urlInput").value;
+
+            const response = await fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url }),
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerText = `Result: ${data.result}`;
+        });
+    </script>
+</body>
+</html>
